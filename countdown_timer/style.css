@@ -61,3 +61,13 @@ h2 {
 .start_button:active {
   background: rgb(139, 4, 4);
 }
+
+.main label {
+  display: block;
+}
+.main input {
+  padding: 13px;
+  border-radius: 17px;
+  border-color: green;
+  border: 2px solid green;
+}

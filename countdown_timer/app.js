@@ -1,5 +1,8 @@
 const main_Container = document.querySelector(".main");
 
+const timer_button = document.querySelector(".set_time");
+const time_picker = document.querySelector(".time_picker");
+
 const countdown_Input = document.querySelector(".main .time_input");
 const button = document.querySelector(".start_button");
 const minutes = document.querySelectorAll("h2")[0];
@@ -11,6 +14,9 @@ let playing = false;
 
 const audio = new Audio("./assets/alarm_sound.mp3");
 
+// setup time picker
+time_picker.value = "17:00";
+
 // setup alarm tone
 
 let time = undefined;
@@ -18,6 +24,10 @@ let time = undefined;
 console.log(main_Container);
 
 const countdown = (min, secs) => {
+  if (secs <= 0) {
+    min -= 1;
+    secs = 59;
+  }
   time = min * 60 + secs;
 
   let showMins = min;
@@ -65,5 +75,33 @@ button.addEventListener("click", () => {
   if (!input || input.trim() == "") {
     console.error("no countdown time given");
   }
-  countdown(parseInt(input.split(":")[0]), parseInt(input.split(":")[1]));
+  const mins = parseInt(input.split(":")[0]);
+  const secs = parseInt(input.split(":")[1]);
+  if ((mins == 0 && secs == 0) || (!mins && !secs)) {
+    return;
+  }
+  countdown(mins, secs);
+});
+
+timer_button.addEventListener("click", () => {
+  const now = new Date().toLocaleString();
+  const dateParse = now.split(".");
+  const dateValue = new Date(
+    dateParse[2].split(",")[0],
+    dateParse[1],
+    dateParse[0],
+    time_picker.value.split(":")[0],
+    time_picker.value.split(":")[1]
+  );
+  dateValue.getHours * 60;
+  let diff =
+    dateValue.getHours() * 60 +
+    dateValue.getMinutes() -
+    (new Date().getMinutes() + new Date().getHours() * 60);
+
+  if (diff < 0) {
+    diff = diff * diff;
+  }
+  countdown(diff, 0);
+  console.log("Countdown started");
 });
