@@ -9,6 +9,7 @@ const minutes = document.querySelectorAll("h2")[0];
 const seconds = document.querySelectorAll("h2")[1];
 
 let playing = false;
+let working = false;
 
 // setup alarm tone
 
@@ -24,10 +25,12 @@ let time = undefined;
 console.log(main_Container);
 
 const countdown = (min, secs) => {
+  button.innerHTML = `Stop`;
   if (secs <= 0) {
     min -= 1;
     secs = 59;
   }
+  working = true;
   time = min * 60 + secs;
 
   let showMins = min;
@@ -56,6 +59,7 @@ const countdown = (min, secs) => {
       audio.play();
       playing = true;
       button.innerHTML = "Snooze";
+      working = false;
       return;
     }
   }, 1000);
@@ -63,7 +67,7 @@ const countdown = (min, secs) => {
 
 console.log(countdown_Input);
 button.addEventListener("click", () => {
-  if (playing) {
+  if (playing || working) {
     audio.pause();
     playing = false;
     countdown_Input.value = "";
