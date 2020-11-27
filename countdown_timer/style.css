@@ -6,7 +6,9 @@
 
 html {
   font-family: "Raleway", sans-serif;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   margin: 0;
+  font-weight: bold;
 }
 
 body {
@@ -69,7 +71,6 @@ h2 {
   padding: 17px;
   border-radius: 17px;
   border: 2px solid red;
-
 }
 
 .main button {

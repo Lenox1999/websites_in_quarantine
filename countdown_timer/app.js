@@ -1,11 +1,12 @@
 // main container access
 const main_Container = document.querySelector(".main");
 
-// setup the rest
+// setup countdown area
 const countdown_Input = document.querySelector(".main .time_input");
 const button = document.querySelector(".start_button");
-const minutes = document.querySelectorAll("h2")[0];
-const seconds = document.querySelectorAll("h2")[1];
+const hourLabel = document.querySelector(".hours");
+const minutes = document.querySelector(".minutes");
+const seconds = document.querySelector(".seconds");
 
 // Time picker element access
 const timer_button = document.querySelector(".set_time");
@@ -26,17 +27,37 @@ time_picker.value = "17:00";
 let time = undefined;
 
 const countdown = (min, secs) => {
+  time = min * 60 + secs;
+
+  let hours = 0;
+
+  if (min > 60) {
+    let sum = min / 60;
+    hours = Math.round(sum);
+    min = sum % 1;
+    min = min * 60;
+    min = Math.round(min);
+  }
+  console.log(min);
+
   button.innerHTML = `Stop`;
   if (secs <= 0) {
     min -= 1;
     secs = 59;
   }
+
+  if (min <= 0 && secs <= 0) {
+    hours -= 1;
+    min = 59;
+    secs = 59;
+  }
   working = true;
-  time = min * 60 + secs;
 
   let showMins = min;
   let showSecs = secs;
+  console.log(time);
   setInterval(() => {
+    console.log(hours, showMins, showSecs);
     time -= 1;
     showSecs -= 1;
 
@@ -45,7 +66,13 @@ const countdown = (min, secs) => {
       showMins -= 1;
     }
 
+    if (hours >= 1 && showMins <= 0 && showSecs <= 0) {
+      hours -= 1;
+      showMins = 59;
+    }
+
     if (!time <= 0) {
+      hourLabel.innerHTML = `${hours} h`;
       minutes.innerHTML = `${showMins} min`;
       seconds.innerHTML = `${showSecs} s`;
     } else {
