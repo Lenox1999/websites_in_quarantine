@@ -88,10 +88,11 @@ button.addEventListener("click", () => {
 
 timer_button.addEventListener("click", () => {
   let dateParse;
-
+  // check if platform is by apple
+  let isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
   // fix for different Unix Time Format
-  if (navigator.platform.split(" ")[0] === "Linux") {
-    // Linux and Unix-like systems
+  if (navigator.platform.split(" ")[0] === "Linux" || isMacLike) {
+    // Linux and Unix-like systems and Mac/iPhone
     dateParse = new Date().toLocaleString().split("/");
   } else {
     // for windows
