@@ -66,8 +66,36 @@ h2 {
   display: block;
 }
 .main input {
-  padding: 13px;
+  padding: 17px;
   border-radius: 17px;
-  border-color: green;
-  border: 2px solid green;
+  border: 2px solid red;
+
+}
+
+.main button {
+  padding: 15px;
+  border-radius: 12px;
+  background: red;
+  border: 2px solid white;
+  color: white;
+  font-size: 22px;
+}
+
+@media only screen and (max-width: 700px) {
+  .main .start_button {
+    padding: 3px;
+    width: 75%;
+    font-size: 14px;
+  }
+  .main h2 {
+    font-size: 30px;
+  }
+  .main button {
+    font-size: 14px;
+    padding: 3px;
+    width: 75%;
+  }
+  .main input {
+    width: 85%;
+  }
 }

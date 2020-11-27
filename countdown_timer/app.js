@@ -1,12 +1,15 @@
+// main container access
 const main_Container = document.querySelector(".main");
 
-const timer_button = document.querySelector(".set_time");
-const time_picker = document.querySelector(".time_picker");
-
+// setup the rest
 const countdown_Input = document.querySelector(".main .time_input");
 const button = document.querySelector(".start_button");
 const minutes = document.querySelectorAll("h2")[0];
 const seconds = document.querySelectorAll("h2")[1];
+
+// Time picker element access
+const timer_button = document.querySelector(".set_time");
+const time_picker = document.querySelector(".time_picker");
 
 let playing = false;
 let working = false;
@@ -15,7 +18,7 @@ let working = false;
 
 const audio = new Audio("./assets/alarm_sound.mp3");
 
-// setup time picker
+// set initial time value for timepicker
 time_picker.value = "17:00";
 
 // setup alarm tone
@@ -84,8 +87,18 @@ button.addEventListener("click", () => {
 });
 
 timer_button.addEventListener("click", () => {
-  // const now = new Date().toLocaleString();
-  const dateParse = new Date().toLocaleString().split(".");
+  let dateParse;
+
+  // fix for different Unix Time Format
+  if (navigator.platform.split(" ")[0] === "Linux") {
+    // Linux and Unix-like systems
+    dateParse = new Date().toLocaleString().split("/");
+  } else {
+    // for windows
+    dateParse = new Date().toLocaleString().split(".");
+  }
+  console.log(dateParse);
+  console.log(dateParse[2]);
   const dateValue = new Date(
     dateParse[2].split(",")[0],
     dateParse[1],
