@@ -22,8 +22,6 @@ time_picker.value = "17:00";
 
 let time = undefined;
 
-console.log(main_Container);
-
 const countdown = (min, secs) => {
   button.innerHTML = `Stop`;
   if (secs <= 0) {
@@ -65,7 +63,6 @@ const countdown = (min, secs) => {
   }, 1000);
 };
 
-console.log(countdown_Input);
 button.addEventListener("click", () => {
   if (playing || working) {
     audio.pause();
@@ -75,7 +72,6 @@ button.addEventListener("click", () => {
   }
 
   const input = countdown_Input.value;
-  console.log(input);
   if (!input || input.trim() == "") {
     console.error("no countdown time given");
   }
@@ -88,8 +84,8 @@ button.addEventListener("click", () => {
 });
 
 timer_button.addEventListener("click", () => {
-  const now = new Date().toLocaleString();
-  const dateParse = now.split(".");
+  // const now = new Date().toLocaleString();
+  const dateParse = new Date().toLocaleString().split(".");
   const dateValue = new Date(
     dateParse[2].split(",")[0],
     dateParse[1],
@@ -107,5 +103,4 @@ timer_button.addEventListener("click", () => {
     diff = diff * diff;
   }
   countdown(diff, 0);
-  console.log("Countdown started");
 });
