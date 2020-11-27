@@ -101,11 +101,6 @@ button.addEventListener("click", () => {
     location.reload();
   }
 
-  // prevent countdown from starting without given time
-  if ((mins == 0 && secs == 0) || (!mins && !secs)) {
-    return;
-  }
-
   const input = countdown_Input.value;
   if (!input || input.trim() == "") {
     //print error into console when no time is given
@@ -113,16 +108,26 @@ button.addEventListener("click", () => {
     console.error("no countdown time given");
   }
   let mins, secs, hours;
-  const inputSplit = input.split(":");
+  // inputSplit = input.split(":");
+
+  // is this efficient?
+  const inputSplit = input.split(":").map((el) => {
+    return parseInt(el);
+  });
+
+  // prevent countdown from starting without given time
+  if (!input.trim()) {
+    return;
+  }
 
   if (input.split(":").length == 2) {
-    mins = parseInt(inputSplit[0]);
-    secs = parseInt(inputSplit[1]);
+    mins = inputSplit[0];
+    secs = inputSplit[1];
     countdown(0, mins, secs);
   } else if (input.split(":").length == 3) {
-    hours = parseInt(inputSplit[0]);
-    mins = parseInt(inputSplit[1]);
-    secs = parseInt(inputSplit[2]);
+    hours = inputSplit[0];
+    mins = inputSplit[1];
+    secs = inputSplit[2];
     countdown(hours, mins, secs);
   }
 });
