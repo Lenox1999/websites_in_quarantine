@@ -26,19 +26,20 @@ time_picker.value = "17:00";
 
 let time = undefined;
 
-const countdown = (min, secs) => {
-  time = min * 60 + secs;
+const countdown = (hours, min, secs) => {
+  if (hours !== 0) {
+    time = min * 60 + hours * 60 * 60 + secs;
+  } else {
+    time = min * 60 + secs;
+  }
 
-  let hours = 0;
-
-  if (min > 60) {
+  if (min >= 60 && hours == 0) {
     let sum = min / 60;
     hours = Math.round(sum);
     min = sum % 1;
     min = min * 60;
     min = Math.round(min);
   }
-  console.log(min);
 
   button.innerHTML = `Stop`;
   if (secs <= 0) {
@@ -46,7 +47,7 @@ const countdown = (min, secs) => {
     secs = 59;
   }
 
-  if (min <= 0 && secs <= 0) {
+  if (min <= 0 && secs <= 0 && secs <= 0) {
     hours -= 1;
     min = 59;
     secs = 59;
@@ -55,9 +56,7 @@ const countdown = (min, secs) => {
 
   let showMins = min;
   let showSecs = secs;
-  console.log(time);
   setInterval(() => {
-    console.log(hours, showMins, showSecs);
     time -= 1;
     showSecs -= 1;
 
@@ -69,6 +68,7 @@ const countdown = (min, secs) => {
     if (hours >= 1 && showMins <= 0 && showSecs <= 0) {
       hours -= 1;
       showMins = 59;
+      showSecs = 59;
     }
 
     if (!time <= 0) {
@@ -101,16 +101,30 @@ button.addEventListener("click", () => {
     location.reload();
   }
 
-  const input = countdown_Input.value;
-  if (!input || input.trim() == "") {
-    console.error("no countdown time given");
-  }
-  const mins = parseInt(input.split(":")[0]);
-  const secs = parseInt(input.split(":")[1]);
+  // prevent countdown from starting without given time
   if ((mins == 0 && secs == 0) || (!mins && !secs)) {
     return;
   }
-  countdown(mins, secs);
+
+  const input = countdown_Input.value;
+  if (!input || input.trim() == "") {
+    //print error into console when no time is given
+    // but this should be prevented in one if stat above
+    console.error("no countdown time given");
+  }
+  let mins, secs, hours;
+  const inputSplit = input.split(":");
+
+  if (input.split(":").length == 2) {
+    mins = parseInt(inputSplit[0]);
+    secs = parseInt(inputSplit[1]);
+    countdown(0, mins, secs);
+  } else if (input.split(":").length == 3) {
+    hours = parseInt(inputSplit[0]);
+    mins = parseInt(inputSplit[1]);
+    secs = parseInt(inputSplit[2]);
+    countdown(hours, mins, secs);
+  }
 });
 
 timer_button.addEventListener("click", () => {
@@ -125,8 +139,6 @@ timer_button.addEventListener("click", () => {
     // for windows
     dateParse = new Date().toLocaleString().split(".");
   }
-  console.log(dateParse);
-  console.log(dateParse[2]);
   const dateValue = new Date(
     dateParse[2].split(",")[0],
     dateParse[1],
@@ -143,5 +155,5 @@ timer_button.addEventListener("click", () => {
   if (diff < 0) {
     diff = diff * diff;
   }
-  countdown(diff, 0);
+  countdown(0, diff, 0);
 });
